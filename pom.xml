@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.mosip</groupId>
     <artifactId>mimoto</artifactId>
-    <version>0.20.0-SNAPSHOT</version>
+    <version>0.21.0-SNAPSHOT</version>
     <name>mimoto</name>
     <url>https://github.com/mosip/mimoto</url>
     <description>Mobile server backend supporting Inji.</description>
@@ -53,18 +53,13 @@
         <maven.javadoc.version>3.6.3</maven.javadoc.version>
 
         <!-- spring -->
-        <spring.boot.version>3.2.3</spring.boot.version>
+        <spring.boot.version>3.3.10</spring.boot.version>
         <session.redis.version>3.4.0</session.redis.version>
         <starter.redis.version>3.4.1</starter.redis.version>
-
-        <!-- data -->
-        <h2.version>2.1.210</h2.version>
 
         <!-- test -->
         <junit.version>4.13.1</junit.version>
         <mockito.version>5.15.2</mockito.version>
-        <!-- logger -->
-        <logback.version>1.2.3</logback.version>
 
         <!-- json -->
         <jackson.version>2.13.2</jackson.version>
@@ -117,6 +112,16 @@
             <groupId>io.mosip.kernel</groupId>
             <artifactId>kernel-core</artifactId>
             <version>1.3.0-beta.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
@@ -132,19 +137,14 @@
             <version>20231002</version>
         </dependency>
         <dependency>
-            <groupId>info.weboftrust</groupId>
-            <artifactId>ld-signatures-java</artifactId>
+            <groupId>io.mosip</groupId>
+            <artifactId>vcverifier-jar</artifactId>
             <version>1.5.0</version>
         </dependency>
         <dependency>
-            <groupId>decentralized-identity</groupId>
-            <artifactId>jsonld-common-java</artifactId>
-            <version>1.8.0</version>
-        </dependency>
-        <dependency>
             <groupId>io.mosip</groupId>
-            <artifactId>vcverifier-jar</artifactId>
-            <version>1.4.0</version>
+            <artifactId>inji-openid4vp-jar</artifactId>
+            <version>0.6.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>io.micrometer</groupId>
@@ -218,10 +218,6 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
             <version>${starter.redis.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.junit.vintage</groupId>
-            <artifactId>junit-vintage-engine</artifactId>
-        </dependency>
 
         <!-- MOSIP -->
         <dependency>
@@ -229,7 +225,6 @@
             <artifactId>kernel-logger-logback</artifactId>
             <version>${mosip.kernel.core.version}</version>
         </dependency>
-
         <dependency>
             <groupId>io.mosip.kernel</groupId>
             <artifactId>kernel-auth-adapter</artifactId>
@@ -280,26 +275,11 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>${h2.version}</version>
-        </dependency>
 
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.7.25</version>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.2.6</version>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-core</artifactId>
-            <version>1.2.9</version>
         </dependency>
         <dependency>
             <groupId>joda-time</groupId>
@@ -377,14 +357,6 @@
             <artifactId>activation</artifactId>
         </dependency>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jaxb</groupId>
-            <artifactId>jaxb-runtime</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.itextpdf</groupId>
             <artifactId>itext7-core</artifactId>
             <version>${itextcore.version}</version>
@@ -456,6 +428,12 @@
             <groupId>io.mosip.kernel</groupId>
             <artifactId>kernel-biometrics-api</artifactId>
             <version>${kernel.biometrics.api.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -467,6 +445,12 @@
             <groupId>io.mosip.kernel</groupId>
             <artifactId>kernel-cbeffutil-api</artifactId>
             <version>${kernel.cbeffutil.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>

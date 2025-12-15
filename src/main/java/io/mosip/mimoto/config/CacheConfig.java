@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.cache.CacheManagerCustomizer;
 import org.springframework.boot.autoconfigure.cache.RedisCacheManagerBuilderCustomizer;
@@ -47,9 +48,20 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
 @Slf4j
 public class CacheConfig {
 
+    @Value("${spring.cloud.config.label}")
+    private String springConfigLabel;
+
+    private String cachePrefix;
+
+    @PostConstruct
+    public void init() {
+        cachePrefix = "injiweb:" + springConfigLabel;
+    }
+
     private static final String ISSUER_WELLKNOWN_CACHE = "issuerWellknown";
     private static final String ISSUERS_CONFIG_CACHE   = "issuersConfig";
     private static final String AUTH_SERVER_WELLKNOWN_CACHE = "authServerWellknown";
+    private static final String PRE_REGISTERED_TRUSTED_VERIFIERS_CACHE = "preRegisteredTrustedVerifiers";
 
     @Value("${cache.credential-issuer.wellknown.expiry-time-in-min:60}")
     private Long issuerWellknownExpiryTimeInMin;
@@ -59,6 +71,9 @@ public class CacheConfig {
 
     @Value("${cache.credential-issuer.authserver-wellknown.expiry-time-in-min:60}")
     private Long authServerWellknownExpiryTimeInMin;
+
+    @Value("${cache.pre-registered-trusted-verifiers.expiry-time-in-min:60}")
+    private Long preRegisteredTrustedVerifiersExpiryTimeInMin;
 
     @Value("${cache.default.expiry-time-in-min:60}")
     private long defaultCacheExpiryTimeInMin;
@@ -101,6 +116,10 @@ public class CacheConfig {
                     AUTH_SERVER_WELLKNOWN_CACHE,
                     createCaffeineCacheConfig(authServerWellknownExpiryTimeInMin).build()
             );
+            cacheManager.registerCustomCache(
+                    PRE_REGISTERED_TRUSTED_VERIFIERS_CACHE,
+                    createCaffeineCacheConfig(preRegisteredTrustedVerifiersExpiryTimeInMin).build()
+            );
             // Set the default Caffeine config for any other caches
             cacheManager.setCaffeine(createCaffeineCacheConfig(null));
         };
@@ -126,12 +145,16 @@ public class CacheConfig {
                     .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jacksonSerializer))
                     .entryTtl(Duration.ofMinutes(defaultCacheExpiryTimeInMin))
                     .disableCachingNullValues();
+            if (cachePrefix != null && !cachePrefix.isEmpty()) {
+                defaultCacheConfig = defaultCacheConfig.prefixCacheNameWith(cachePrefix);
+            }
 
             // Per-cache configs
             Map<String, RedisCacheConfiguration> cacheConfigurations = Map.of(
                     ISSUER_WELLKNOWN_CACHE, createRedisConfigWithTtl(defaultCacheConfig, issuerWellknownExpiryTimeInMin),
                     ISSUERS_CONFIG_CACHE, createRedisConfigWithTtl(defaultCacheConfig, issuersConfigExpiryTimeInMin),
-                    AUTH_SERVER_WELLKNOWN_CACHE, createRedisConfigWithTtl(defaultCacheConfig, authServerWellknownExpiryTimeInMin)
+                    AUTH_SERVER_WELLKNOWN_CACHE, createRedisConfigWithTtl(defaultCacheConfig, authServerWellknownExpiryTimeInMin),
+                    PRE_REGISTERED_TRUSTED_VERIFIERS_CACHE, createRedisConfigWithTtl(defaultCacheConfig, preRegisteredTrustedVerifiersExpiryTimeInMin)
             );
 
             // Apply default and per-cache configurations
