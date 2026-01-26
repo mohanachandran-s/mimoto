@@ -5,7 +5,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.0.2.RELEASE</version>
-        <relativePath /> <!-- lookup parent from repository -->
+        <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>io.mosip</groupId>
     <artifactId>mimoto</artifactId>
@@ -57,7 +57,7 @@
         <maven.javadoc.version>3.0.1</maven.javadoc.version>
 
             <!-- spring -->
-        <spring.boot.version>2.0.2.RELEASE</spring.boot.version>
+        <spring.boot.version>2.2.0.RELEASE</spring.boot.version>
 
 
             <!-- data -->
@@ -239,12 +239,12 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.6</version>
+            <version>1.5.25</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
-            <version>1.2.9</version>
+            <version>1.5.25</version>
         </dependency>
         <dependency>
             <groupId>joda-time</groupId>
