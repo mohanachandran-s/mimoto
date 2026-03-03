@@ -53,7 +53,7 @@
         <maven.javadoc.version>3.6.3</maven.javadoc.version>
 
         <!-- spring -->
-        <spring.boot.version>3.3.10</spring.boot.version>
+        <spring.boot.version>4.0.0</spring.boot.version>
         <session.redis.version>3.4.0</session.redis.version>
         <starter.redis.version>3.4.1</starter.redis.version>
 
@@ -62,9 +62,9 @@
         <mockito.version>5.15.2</mockito.version>
 
         <!-- json -->
-        <jackson.version>2.13.2</jackson.version>
+        <jackson.version>2.18.6</jackson.version>
         <!-- jackson-databind security patch version -->
-        <jackson.databind.version>2.13.2.2</jackson.databind.version>
+        <jackson.databind.version>2.18.6</jackson.databind.version>
         <json.utility.version>20180130</json.utility.version>
         <json.schema.validator.version>2.2.10</json.schema.validator.version>
         <json.version>20180813</json.version>
